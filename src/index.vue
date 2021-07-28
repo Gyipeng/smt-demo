@@ -51,8 +51,14 @@
             tip: "柱图",
             img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
         },
-
-
+        {
+            type:"index",
+            name: "smt-jq",
+            src: "http://localhost:3200/dist/index.js",
+            title: "柱图",
+            tip: "柱图",
+            img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
+        },
     ]
     export default {
         name: "index",

@@ -1,4 +1,5 @@
 import {deepClone} from "./utils"
+import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
 
 var globalState = {};
 var deps = {}; // 触发全局监听
@@ -61,7 +62,7 @@ export function getComponentStateActions(id, isMaster) {
             globalState = deepClone(Object.keys(state).reduce(function (_globalState, changeKey) {
                 if (isMaster || Object.prototype.hasOwnProperty.call(_globalState,changeKey)) {
                     changeKeys.push(changeKey);
-                    return Object.assign(_globalState, Object.defineProperty({}, changeKey, state[changeKey]));
+                    return Object.assign(_globalState, _defineProperty({}, changeKey, state[changeKey]));
                 }
 
                 console.warn("[] '".concat(changeKey, "' not declared when init state\uFF01"));

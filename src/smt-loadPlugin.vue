@@ -48,6 +48,9 @@
             receivePlugins(newPlugins, plugins) {
                 newPlugins.forEach((plugin, index) => {
                     let component = plugin?.default?.default;
+                    if( plugins[index].type==="index"){
+                        component = plugin?.default
+                    }
                     plugins[index].component = component
                 })
                 return plugins
