@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import {initGlobalState} from "./globalState"
+
 const initialState = Vue.observable({
-    user: {
-        name: 'zhangsan'
-    }
+    "图表0": {condition: 1, range: ["图表2", "图表1"]}
 })
 const actions = initGlobalState(initialState)
 

@@ -42,7 +42,6 @@
                 })
             },
             handlePluginComplete(newPlugins) {
-                console.log(newPlugins);
                 this.$emit('loadComplete', newPlugins)
             },
             receivePlugins(newPlugins, plugins) {

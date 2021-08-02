@@ -6,8 +6,10 @@ var deps = {}; // 触发全局监听
 
 function emitGlobal(state, prevState) {
     Object.keys(deps).forEach(function (id) {
-        if (deps[id] instanceof Function) {
-            deps[id](deepClone(state), deepClone(prevState));
+        if (deps[id] instanceof Array) {
+            deps[id].forEach(callback=>{
+                callback(deepClone(state), deepClone(prevState))
+            })
         }
     });
 }
@@ -35,11 +37,10 @@ export function getComponentStateActions(id, isMaster) {
                 return;
             }
 
-            if (deps[id]) {
-                console.warn("[] '".concat(id, "' global listener already exists before this, new listener will overwrite it."));
+            if (!deps[id]) {
+                deps[id]=[];
             }
-
-            deps[id] = callback;
+            deps[id].push(callback)
 
             var cloneState = deepClone(globalState);
 
@@ -51,7 +52,7 @@ export function getComponentStateActions(id, isMaster) {
             var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
             if (state === globalState) {
-                console.warn('[qiankun] state has not changed！');
+                console.warn('state has not changed！');
                 return false;
             }
 
