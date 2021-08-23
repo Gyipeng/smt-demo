@@ -18,8 +18,8 @@
                         :value="item.value">
                 </el-option>
             </el-select>
-            <smt-plugins :componentList="newComponentList" :ranges="ranges"
-                         @changeNumber="changeNumber"></smt-plugins>
+            <smt-plugins :componentList="componentList" :ranges="ranges"
+                        ></smt-plugins>
         </el-col>
 
     </div>
@@ -31,12 +31,14 @@
     import {SmtInsertPluginsTable, SmtPluginsTable} from './components/table';
     import {deepClone} from "./utlis/utils"
     import {actions} from "./utlis/state"
+    import {https} from "./utlis/http"
 
     let dataset = [
         {
             name: '苹果',
             value: 722,
-            category: 0
+            category: 0,
+            time:""
         }, {
             name: '土豆',
             value: 84,
@@ -71,49 +73,33 @@
             category: 5
         }]
     let pieOption = {
-        title: {
-            text: '农产品',
-        },
-        tooltip: {
-            trigger: 'item'
-        },
-        series: [
-            {
-                name: '农产品',
-                type: 'pie',
-                radius: '50%',
-                data: JSON.parse(JSON.stringify(dataset)),
-                itemStyle: {
-                    color: "green"
-                }
-            }
-        ]
+        data: dataset,
     };
     let plugins = [
-        {
-            type: "vue",
-            name: "my-chart",
-            src: "http://localhost:3200/dist/my-chart.js",
-            title: "柱图",
-            tip: "柱图",
-            img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
-        },
-        {
-            type: "react",
-            name: "smt-react",
-            src: "http://localhost:3200/dist/smt-react.js",
-            title: "柱图",
-            tip: "柱图",
-            img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
-        },
-        {
-            type: "jq",
-            name: "smt-jq",
-            src: "http://localhost:3200/dist/smt-jq.js",
-            title: "柱图",
-            tip: "柱图",
-            img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
-        },
+        // {
+        //     type: "vue",
+        //     name: "my-chart",
+        //     src: "http://localhost:3200/dist/my-chart.js",
+        //     title: "柱图",
+        //     tip: "柱图",
+        //     img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
+        // },
+        // {
+        //     type: "react",
+        //     name: "smt-react",
+        //     src: "http://localhost:3200/dist/smt-react.js",
+        //     title: "柱图",
+        //     tip: "柱图",
+        //     img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
+        // },
+        // {
+        //     type: "jq",
+        //     name: "smt-jq",
+        //     src: "http://localhost:3200/dist/smt-jq.js",
+        //     title: "柱图",
+        //     tip: "柱图",
+        //     img: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
+        // },
         // {
         //     type: "index",
         //     name: "smt-jq",
@@ -139,22 +125,33 @@
                 isLoad: false,
                 checkedList: [],
                 options: {
-                    title: {text: '测试'},
-                    tooltip: {},
-                    xAxis: {
-                        data: ['水果', '蔬菜', '粮油', '副食', '酒水', '肉类']
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '销量',
-                        type: 'bar',
-                        data: [5, 20, 36, 10, 10, 20],
-                        itemStyle: {
-                            color: "green"
-                        }
-                    }]
+                    data: [{
+                        name: '水果',
+                        value: 50,
+                        category: 0
+                    }, {
+                        name: '蔬菜',
+                        value: 200,
+                        category: 1
+                    }, {
+                        name: '粮油',
+                        value: 360,
+                        category: 2
+                    }, {
+                        name: '副食',
+                        value: 100,
+                        category: 3
+                    }, {
+                        name: '酒水',
+                        value: 100,
+                        category: 4
+                    }, {
+                        name: '肉类',
+                        value: 200,
+                        category: 5
+                    }
+                    ]
                 },
-                state: actions.getGlobalState()
             }
         },
         methods: {
@@ -169,58 +166,21 @@
                 this.componentList.push(newComponent)
             },
             changeColor() {
-                this.componentList = this.componentList.map((item) => {
-                    if (this.checkedList.includes(item.key)) {
-                        item.options.series[0].itemStyle.color = "red"
+                actions.setGlobalState({
+                    system: {
+                        range: this.checkedList,
+                        itemStyle: {
+                            color: "red"
+                        }
                     }
-                    // else {
-                    //     item.options = JSON.parse(JSON.stringify(this.options))
-                    //     if (item.type !== "vue") {
-                    //         item.options = JSON.parse(JSON.stringify(pieOption))
-                    //     }
-                    // }
-                    return item
                 })
             },
             reset() {
-                this.componentList = this.componentList.map((item) => {
-                    if (item.type !== "vue") {
-                        item.options = JSON.parse(JSON.stringify(pieOption))
-                    } else {
-                        item.options = JSON.parse(JSON.stringify(this.options))
+                actions.setGlobalState({
+                    system: {
+                        range: [],
                     }
-                    return item
                 })
-            },
-            changeNumber() {
-
-            },
-            conditionFilter(item, condition, range) {
-                if (condition === "" || !range || range.length === 0) {
-                    if (item.type !== "vue") {
-                        item.options = JSON.parse(JSON.stringify(pieOption))
-                    }
-                    return item
-                }
-                if (range.includes(item.key)) {
-                    item.options.series[0].data = dataset.filter(item => item.category == condition)
-                }
-                return item
-            },
-            numberFilter(item, number,range) {
-                if (!range.includes(item.key)) {
-                    return item
-                }
-                let datas = JSON.parse(JSON.stringify(item.options.series[0].data))
-                item.options.series[0].data = datas.map(data => {
-                    if (typeof data === "object") {
-                        data.value = data.value + number
-                    } else {
-                        data += number
-                    }
-                    return data
-                })
-                return item
             }
         },
         computed: {
@@ -229,26 +189,13 @@
                     return {label: `图表${index}`, value: `图表${index}`}
                 });
             },
-            newComponentList() {
-                return this.componentList.map(item => {
-                    for (let key in this.state) {
-                        let {condition, range, number} = this.state[key]
-                        if (Object.prototype.hasOwnProperty.call(this.state[key], "condition")) {
-                            item = this.conditionFilter(item, condition, range)
-                        }
-                        if (Object.prototype.hasOwnProperty.call(this.state[key], "number")) {
-                            item = this.numberFilter(item, number, range)
-                        }else {
-                            // if (item.type !== "vue") {
-                            //     item.options = JSON.parse(JSON.stringify(pieOption))
-                            // }else {
-                            //     item.options = JSON.parse(JSON.stringify(this.options))
-                            // }
-                        }
-                    }
-                    return item
-                })
+            state() {
+                return actions.getGlobalState()
             }
         },
+       async created(){
+         let {data:{list}}=  await https.get("http://localhost:3200/file/getList")
+           this.plugins=list
+       }
     }
 </script>

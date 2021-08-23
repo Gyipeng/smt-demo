@@ -1,9 +1,22 @@
 import Vue from 'vue'
 import {initGlobalState} from "./globalState"
 
+// let demo1 = {
+//     "发出事件的组件Key": {"筛选条件": 1, "范围": ["图表2", "图表1"]}
+// }
+// let demo2={
+//     "受影响的组件":{
+//         "筛选条件":[]
+//     }
+// }
+
+
 const initialState = Vue.observable({
-    "图表0": {condition: 1, range: ["图表2", "图表1"]}
+    "图表0": {
+        condition: {}, range: ["图表2", "图表1"]
+    }
 })
+
 const actions = initGlobalState(initialState)
 
 actions.onGlobalStateChange((newState, prev) => {

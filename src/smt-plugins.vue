@@ -6,16 +6,18 @@
                  :keys="component.key"
                  @changeNumber="changeNumber"
                  :classNames="getClass(index)">
-            <component
-                    :className="getClass(index)"
-                    v-if="component.type==='vue'"
-                    :is="component.name"
-                    :keys="component.key"
-                    :options="component.options"
-                    :actions="actions"
-                    :Bus="Bus"
-            ></component>
-            <template v-else>
+            <template     v-if="component.type==='vue'" v-slot="item">
+                    <component
+                            :range="item.range"
+                            :className="getClass(index)"
+                            :is="component.name"
+                            :keys="component.key"
+                            :options="component.options"
+                            :actions="actions"
+                            :Bus="Bus"
+                    ></component>
+            </template>
+            <template v-else  >
                 {{createComponent(component,getClass(index))}}
             </template>
         </smt-box>
@@ -26,6 +28,7 @@
     import smtBox from "./components/box/smt-box"
     import Bus from "./utlis/bus"
     import {actions} from "./utlis/state"
+
     export default {
         name: "smt-plugins",
         data() {
@@ -60,13 +63,10 @@
                 return `smt-plugins__${index}`
             },
             createComponent(component, className) {
-                let div = this.createDiv()
                 this.$nextTick(() => {
-                    let dom = document.querySelector(`.${className}`)
-                    dom.appendChild(div)
                     let componentInstance = null
                     if (component.type === "react") {
-                        componentInstance = this.createReact(component, div, `.${className}`)
+                        componentInstance = this.createReact(component, `.${className}`)
                     } else {
                         componentInstance = this.createJq(component, `.${className}`)
                     }
@@ -75,30 +75,32 @@
                 })
 
             },
-            createReact(componentInstance, dom, className) {
-                let {component, options: option} = componentInstance;
+            createReact(componentInstance, className) {
+                let div = document.createElement('div')
+                let dom = document.querySelector(className)
+                dom.appendChild(div)
+                let {component, options: option,key:keys} = componentInstance;
                 let React = window.React
                 let ReactDOM = window.ReactDOM;
+
                 return ReactDOM.render(React.createElement(component, {
                     option,
                     Bus,
                     actions,
-                    className
-
+                    className,
+                    keys,
                 }), dom);
             },
             createJq(componentInstance, className) {
-                let {component,options: option} = componentInstance;
+                let {component, options: option,key:keys} = componentInstance;
                 return new component({
                     Bus,
                     option,
                     actions,
+                    keys,
                     className
                 })
             },
-            createDiv() {
-                return document.createElement('div')
-            }
         },
         watch: {
             componentList() { //获取组件实例
