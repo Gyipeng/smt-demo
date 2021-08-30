@@ -1,14 +1,14 @@
 <template>
     <div class="smt-box">
-        <el-select v-model="range" multiple placeholder="请选择" @change="handleChange">
-            <el-option
-                    v-for="item in ranges"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-            </el-option>
-        </el-select>
-        <el-button @click="reset">重置</el-button>
+        <!--<el-select v-model="range" multiple placeholder="请选择" @change="handleChange">-->
+            <!--<el-option-->
+                    <!--v-for="item in ranges"-->
+                    <!--:key="item.value"-->
+                    <!--:label="item.label"-->
+                    <!--:value="item.value">-->
+            <!--</el-option>-->
+        <!--</el-select>-->
+        <!--<el-button @click="reset">重置</el-button>-->
         <div :class="classNames" style="width: 500px;height: 300px">
             <slot :range="range"></slot>
         </div>

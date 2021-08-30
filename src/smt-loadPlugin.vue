@@ -35,7 +35,7 @@
             registerComponent(newPlugins, plugins) {
                 plugins.forEach((plugin, index) => {
                     if (plugin.type === "vue") {
-                        let component = newPlugins[index]?.default?.default;
+                        let component = newPlugins[index]?.default;
                         let name = plugin.name
                         Vue.component(name, component)
                     }
@@ -47,7 +47,7 @@
             receivePlugins(newPlugins, plugins) {
                 newPlugins.forEach((plugin, index) => {
                     let component = plugin?.default?.default;
-                    if( plugins[index].type==="index"){
+                    if( plugins[index].type!=="vue"){
                         component = plugin?.default
                     }
                     plugins[index].component = component

@@ -7,17 +7,17 @@
                                       @insert="insertComponents"></smt-insert-plugins-table>
         </el-col>
         <el-col :span="12">
-            <div>{{state}}</div>
-            <el-button @click="changeColor">改变主题颜色</el-button>
-            <el-button @click="reset">重置</el-button>
-            <el-select v-model="checkedList" multiple placeholder="请选择">
-                <el-option
-                        v-for="item in ranges"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+            <!--<div>{{state}}</div>-->
+            <!--<el-button @click="changeColor">改变主题颜色</el-button>-->
+            <!--<el-button @click="reset">重置</el-button>-->
+            <!--<el-select v-model="checkedList" multiple placeholder="请选择">-->
+                <!--<el-option-->
+                        <!--v-for="item in ranges"-->
+                        <!--:key="item.value"-->
+                        <!--:label="item.label"-->
+                        <!--:value="item.value">-->
+                <!--</el-option>-->
+            <!--</el-select>-->
             <smt-plugins :componentList="componentList" :ranges="ranges"
                         ></smt-plugins>
         </el-col>
