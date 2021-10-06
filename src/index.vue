@@ -34,9 +34,12 @@
     import {deepClone} from "./utlis/utils"
     import {actions} from "./utlis/state"
     import {https} from "./utlis/http"
+<<<<<<< HEAD
     import myMixin from "./minxins/myMxinin"
     import Vue from 'vue'
     import  demo  from "./demo"
+=======
+>>>>>>> d873ce5a81ea427877ac04ec39ba9dbe18d07f59
 
     let dataset = [
         {
@@ -121,6 +124,10 @@
             SmtPlugins,
             SmtInsertPluginsTable,
             SmtPluginsTable,
+<<<<<<< HEAD
+=======
+
+>>>>>>> d873ce5a81ea427877ac04ec39ba9dbe18d07f59
         },
         data() {
             return {
@@ -156,11 +163,16 @@
                     }
                     ]
                 },
+<<<<<<< HEAD
                 regComponents:[],
                 menus:[]
             }
         },
         mixins:[myMixin],
+=======
+            }
+        },
+>>>>>>> d873ce5a81ea427877ac04ec39ba9dbe18d07f59
         methods: {
             insertComponents(component) {
                 component.key = `图表${this.componentList.length}`
@@ -188,6 +200,7 @@
                         range: [],
                     }
                 })
+<<<<<<< HEAD
             },
             registerComponent() {
                 return import("./test").then(component => {
@@ -227,6 +240,8 @@
                     this.menus.push(...newMenus)
                 }
 
+=======
+>>>>>>> d873ce5a81ea427877ac04ec39ba9dbe18d07f59
             }
         },
         computed: {
@@ -240,9 +255,13 @@
             }
         },
        async created(){
+<<<<<<< HEAD
            console.log(this);
            await this.init(this.onInit)
            let {data:{list}}=  await https.get("http://localhost:3200/file/getList")
+=======
+         let {data:{list}}=  await https.get("http://localhost:3200/file/getList")
+>>>>>>> d873ce5a81ea427877ac04ec39ba9dbe18d07f59
            this.plugins=list
        }
     }
