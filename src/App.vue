@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <smt-home></smt-home>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import smtHome from './index.vue'
+import test from  "./test.vue"
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+      smtHome
+  },
+    mounted(){
+        console.log(test);
+    }
 }
 </script>
 
